@@ -5,7 +5,7 @@ async function bootstrap() {
   await app.listen(4000);
   console.log(`🚀 Running at http://localhost:${4000}`);
 }
-const vercel = true
+const vercel = false
 // Run bootstrap only if not on Vercel
 if (!vercel) {
   console.log('Not on Vercel, starting server...'); 
