@@ -16,7 +16,9 @@ constructor(private readonly configService: ConfigService) {}
     }
 
     const token = authHeader.split(' ')[1]; 
+
     const secret = this.configService.get<string>('JWT_SECRET');
+
     if (!secret) {
       throw new UnauthorizedException('JWT secret not configured');
     }
@@ -25,7 +27,8 @@ constructor(private readonly configService: ConfigService) {}
       request.user = payload;
       return request;
     } catch (e) {
-      throw new UnauthorizedException('Invalid or expired token');
+      console.log('JWT verification error:', e);
+      throw new UnauthorizedException('Invalid or expired token',e);
     }
   }
 }
