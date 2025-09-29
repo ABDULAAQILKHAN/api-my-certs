@@ -1,8 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProfileModule } from './profile/profile.module';
-import { Profile } from './profile/entities/profile.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+//modules
+import { ProfileModule } from './profile/profile.module';
+import { CertificateModule } from './certificate/certificate.module';
+//entities
+import { Profile } from './profile/entities/profile.entity';
+import { Certificate } from './certificate/entities/certificate.entity';
+
 
 @Module({
   imports: [
@@ -16,11 +21,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         type: 'postgres',
         url: configService.get<string>('DATABASE_URL'),
         ssl: true,
-        entities: [Profile],
-        synchronize: true, // ⚠️ remove in prod!
+        entities: [Profile,Certificate],
+        synchronize: true,
       }),
     }),
     ProfileModule,
+    CertificateModule,
   ],
 })
 export class AppModule {}

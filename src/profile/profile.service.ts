@@ -52,7 +52,6 @@ export class ProfileService {
     
     // Create a copy of updateProfileDto and remove id and userId fields to prevent updates
     const { id: _, sub: __, email: ___ , ...updateData } = updateProfileDto as any;
-    console.log('Update data:', updateData);
     Object.assign(profile, updateData);
     return await this.profileRepository.save(profile);
   }
