@@ -21,9 +21,13 @@ export class CreateCertificateDto {
   @IsString()
   issuer: string;
 
-  @ApiProperty({ example: 'Image', description: 'Certificate Image URL or Base64 string' })
+  @ApiProperty({ example: 'Image', description: 'Certificate Image URL string' })
   @IsString()
   image: string;
+
+  @ApiProperty({ example: 'Image', description: 'Certificate Image path' })
+  @IsString()
+  imagePath: string;
 
 
   @ApiProperty({ example: '2024-09-25T10:30:00Z', description: 'Date when the certificate was issued', required: false })

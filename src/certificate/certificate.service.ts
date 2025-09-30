@@ -41,6 +41,14 @@ export class CertificateService {
     return certificate;
   }
 
+  async isCertificateAvailable(credentialId: string) {
+    const certificate = await this.certificateRepository.findOneBy({ credentialId });
+    if (!certificate) {
+      return true
+    }
+    return false;
+  }
+
   async update(id: string, updateCertificateDto: UpdateCertificateDto) {
     const found = await this.certificateRepository.findOneBy({ 
       credentialId: updateCertificateDto.credentialId 

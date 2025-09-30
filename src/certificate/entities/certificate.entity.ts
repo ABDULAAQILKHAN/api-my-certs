@@ -24,9 +24,13 @@ export class Certificate {
   @Column({ unique: false })  
   issuer: string;
 
-  @ApiProperty({ example: 'Image', description: 'Image of the certificate issued.' })
+  @ApiProperty({ example: 'Image', description: 'Image URL of the certificate issued.' })
   @Column({ unique: false, nullable: true })  
   image: string;
+
+  @ApiProperty({ example: 'Image', description: 'Image path of the certificate issued.' })
+  @Column({ unique: true, nullable: true })  
+  imagePath: string;
 
   @ApiProperty({ example: '2024-09-25T10:30:00Z', description: 'Date of certificate issue.', required: false })
   @Column({ nullable: true })
