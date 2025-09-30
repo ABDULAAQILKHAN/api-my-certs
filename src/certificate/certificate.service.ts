@@ -41,6 +41,14 @@ export class CertificateService {
     return certificate;
   }
 
+  async findPublicOne(credentialId: string) {
+    const certificate = await this.certificateRepository.findOneBy({ credentialId });
+    if (!certificate || !certificate.isPublic) {
+      throw new NotFoundException(`Certificate with ID ${credentialId} not found`);
+    }
+    return certificate;
+  }
+
   async isCertificateAvailable(credentialId: string) {
     const certificate = await this.certificateRepository.findOneBy({ credentialId });
     if (!certificate) {
@@ -61,6 +69,20 @@ export class CertificateService {
     Object.assign(found, updateData);
     return await this.certificateRepository.save(found);
   }
+
+  async switchCertificateVisibility(credentialId: string) {
+    const found = await this.certificateRepository.findOneBy({ 
+      credentialId
+    });
+
+    if (!found) {
+      throw new ConflictException('Certificate with this credential Id not found!');
+    }
+
+    Object.assign(found, { isPublic: !found.isPublic });
+    return await this.certificateRepository.save(found);
+  }
+
 
   async remove(credentialId: string) {
     const certificate = await this.certificateRepository.findOneBy({ credentialId});
