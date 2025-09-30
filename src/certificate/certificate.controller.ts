@@ -47,7 +47,7 @@ export class CertificateController {
   @ApiResponse({ status: 200, description: 'Certificate fetched successfully', type: Certificate })
   @ApiResponse({ status: 500, description: 'Error in fetching certificate' })
   findShared(@Param('credentialId') credentialId: string) {
-    return this.certificateService.findOne(credentialId);
+    return this.certificateService.findPublicOne(credentialId);
   }
 
   @Post('/check-validitity/:credentialId')
@@ -58,6 +58,16 @@ export class CertificateController {
   @ApiResponse({ status: 500, description: 'Error in fetching certificate' })
   checkIsValid(@Param('credentialId') credentialId: string) {
     return this.certificateService.isCertificateAvailable(credentialId);
+  }
+
+  @Patch('/visibility/:credentialId')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Toggle the visibility state of the certificate' })
+  @ApiResponse({ status: 200, description: 'Certificate state switched successfully', type: Certificate })
+  @ApiResponse({ status: 500, description: 'Error in swtitching certificate' })
+  switchCertificateVisibility(@Param('credentialId') credentialId: string) {
+    return this.certificateService.switchCertificateVisibility(credentialId);
   }
 
   @Patch()
