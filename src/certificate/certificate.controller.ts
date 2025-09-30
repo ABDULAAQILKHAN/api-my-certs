@@ -50,6 +50,16 @@ export class CertificateController {
     return this.certificateService.findOne(credentialId);
   }
 
+  @Post('/check-validitity/:credentialId')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Fetch certificate with certificate Id' })
+  @ApiResponse({ status: 200, description: 'Certificate fetched successfully', type: Certificate })
+  @ApiResponse({ status: 500, description: 'Error in fetching certificate' })
+  checkIsValid(@Param('credentialId') credentialId: string) {
+    return this.certificateService.isCertificateAvailable(credentialId);
+  }
+
   @Patch()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT-auth')
