@@ -48,6 +48,9 @@ export class Certificate {
   @Column({ nullable: true })
   isPublic: boolean;
 
+  @ApiProperty({ example: 0, description: 'Total number of view count', required: false })
+  @Column({ nullable: false, default: 0 })
+  viewCount: number;
 
   @ApiProperty({ example: '2024-09-25T10:30:00Z', description: 'Profile creation timestamp' })
   @CreateDateColumn()
