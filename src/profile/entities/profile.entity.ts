@@ -27,6 +27,10 @@ export class Profile {
   @Column({ nullable: true })
   avatar: string;
 
+  @ApiProperty({ example: false,  description: 'Boolean to define dark mode', required: false })
+  @Column({ nullable: true })
+  isDark: boolean;
+
   @ApiProperty({ example: '2024-09-25T10:30:00Z', description: 'Profile creation timestamp' })
   @CreateDateColumn()
   createdAt: Date;

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Put, Param, Delete, UseGuards, Request, HttpStatus } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -41,6 +41,28 @@ export class ProfileController {
   update(@Request() req, @Body() updateProfileDto: UpdateProfileDto) {
     const id = req.user.user_metadata.sub;
     return this.profileService.update(id, updateProfileDto);
+  }
+
+  @Put("/theme")
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Update theme' })
+  @ApiResponse({ status: 200, description: 'Profile theme updated successfully', type: Profile })
+  @ApiResponse({ status: 404, description: 'Profile not found' })
+  updateTheme(@Request() req) {
+    const id = req.user.user_metadata.sub;
+    return this.profileService.updateTheme(id);
+  }
+
+  @Get("/theme")
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Get user theme' })
+  @ApiResponse({ status: 200, description: 'Profile theme fetched successfully', type: Profile })
+  @ApiResponse({ status: 404, description: 'Profile not found' })
+  getTheme(@Request() req) {
+    const id = req.user.user_metadata.sub;
+    return this.profileService.getTheme(id);
   }
 
   @Delete(':id')

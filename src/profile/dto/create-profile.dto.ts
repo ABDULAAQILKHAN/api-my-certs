@@ -1,4 +1,4 @@
-import { IsString, IsEmail, IsOptional, MinLength, IsPhoneNumber } from 'class-validator';
+import { IsString, IsEmail, IsOptional, MinLength, IsPhoneNumber, IsBoolean } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -30,4 +30,11 @@ export class CreateProfileDto {
   @IsString()
   @Transform(({ value }) => value?.trim())
   avatar?: string;
+
+  @ApiProperty({ example: false, description: 'Boolean to define dark mode', required: false })
+  @IsOptional()
+  @IsBoolean()
+  //@Transform(({ value }) => value === 'true' || value === true)
+  isDark?: boolean;
+
 }

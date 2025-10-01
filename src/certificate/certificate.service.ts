@@ -46,6 +46,8 @@ export class CertificateService {
     if (!certificate || !certificate.isPublic) {
       throw new NotFoundException(`Certificate with ID ${credentialId} not found`);
     }
+    certificate.viewCount = (certificate.viewCount || 0) + 1;
+    await this.certificateRepository.save(certificate);
     return certificate;
   }
 
