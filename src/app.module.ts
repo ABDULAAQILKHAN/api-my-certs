@@ -4,9 +4,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 //modules
 import { ProfileModule } from './profile/profile.module';
 import { CertificateModule } from './certificate/certificate.module';
+import { GroupModule } from './group/group.module';
 //entities
 import { Profile } from './profile/entities/profile.entity';
 import { Certificate } from './certificate/entities/certificate.entity';
+import { Group } from './group/entities/group.entity';
 
 
 @Module({
@@ -21,12 +23,13 @@ import { Certificate } from './certificate/entities/certificate.entity';
         type: 'postgres',
         url: configService.get<string>('DATABASE_URL'),
         ssl: true,
-        entities: [Profile,Certificate],
+        entities: [Profile,Certificate,Group],
         synchronize: true,
       }),
     }),
     ProfileModule,
     CertificateModule,
+    GroupModule,
   ],
 })
 export class AppModule {}
