@@ -1,0 +1,10 @@
+services:
+  backend:
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    # Note: connect to a postgres database via DATABASE_URL.
+    # The application code (src/app.module.ts) enforces 'ssl: true', 
+    # so ensure your database execution environment supports SSL or modify the code.
