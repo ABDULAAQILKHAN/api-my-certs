@@ -16,7 +16,7 @@ export class CertificateController {
   @ApiResponse({ status: 201, description: 'Certificate created successfully', type: Certificate })
   @ApiResponse({ status: 500, description: 'Error in creating certificate' })
   create(@Request() req,@Body() createCertificateDto: CreateCertificateDto) {
-    const id = req.user.user_metadata.sub;
+    const id = req.user.sub;
     return this.certificateService.create(id, createCertificateDto);
   }
 
@@ -27,7 +27,7 @@ export class CertificateController {
   @ApiResponse({ status: 200, description: 'Certificate fetched successfully', type: Certificate })
   @ApiResponse({ status: 500, description: 'Error in fetching certificate' })
   findAll(@Request() req) {
-    const id = req.user.user_metadata.sub;
+    const id = req.user.sub;
     return this.certificateService.findAll(id);
   }
 
@@ -77,7 +77,7 @@ export class CertificateController {
   @ApiResponse({ status: 200, description: 'Certificate updated successfully', type: Certificate })
   @ApiResponse({ status: 500, description: 'Error in updating certificate' })
   update(@Request() req, @Body() updateCertificateDto: UpdateCertificateDto) {
-    const id = req.user.user_metadata.sub;
+    const id = req.user.sub;
     return this.certificateService.update(id, updateCertificateDto);
   }
 
