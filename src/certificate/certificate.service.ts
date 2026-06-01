@@ -4,13 +4,18 @@ import { UpdateCertificateDto } from './dto/update-certificate.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Certificate } from './entities/certificate.entity';
+import { SyncService } from '../sync/sync.service';
+
 @Injectable()
 export class CertificateService {
     constructor(
       @InjectRepository(Certificate)
       private certificateRepository: Repository<Certificate>,
+      private readonly syncService: SyncService,
     ) {}
+
   async create(id:string, createCertificateDto: CreateCertificateDto) {
+    await this.syncService.findByUserId(id);
     const found = await this.certificateRepository.findOneBy({ 
       credentialId: createCertificateDto.credentialId 
     });
@@ -28,9 +33,9 @@ export class CertificateService {
   
   }
 
-  findAll(id: string) {
-    const certificates = this.certificateRepository.findBy({ userId: id });
-    return certificates;
+  async findAll(id: string) {
+    await this.syncService.findByUserId(id);
+    return this.certificateRepository.findBy({ userId: id });
   }
 
   findOne(credentialId: string) {

@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In, ILike } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { Group } from './entities/group.entity';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { Certificate } from '../certificate/entities/certificate.entity';
+import { SyncService } from '../sync/sync.service';
 import { randomUUID } from 'crypto';
 
 @Injectable()
@@ -14,9 +15,11 @@ export class GroupService {
     private groupRepository: Repository<Group>,
     @InjectRepository(Certificate)
     private certificateRepository: Repository<Certificate>,
+    private readonly syncService: SyncService,
   ) {}
 
   async create(userId: string, createGroupDto: CreateGroupDto): Promise<Group> {
+    await this.syncService.findByUserId(userId);
     const { certificateIds, ...groupData } = createGroupDto;
 
     // Verify certificates exist (and optionally belong to user - good practice)
@@ -41,6 +44,7 @@ export class GroupService {
   }
 
   async findAll(userId: string, search?: string): Promise<Group[]> {
+    await this.syncService.findByUserId(userId);
     const query = this.groupRepository.createQueryBuilder('group')
         .leftJoinAndSelect('group.certificates', 'certificate')
         .where('group.userId = :userId', { userId });

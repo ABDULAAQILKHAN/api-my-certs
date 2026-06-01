@@ -18,7 +18,12 @@ export class ProfileController {
   @ApiResponse({ status: 409, description: 'Profile already exists for this user' })
   create(@Request() req) {
     const user = req.user;
-    return this.profileService.create(user.user_metadata);
+    return this.profileService.create({
+      sub: user.sub,
+      email: user.email,
+      name: user.metadata?.name,
+      phone: user.metadata?.phone,
+    });
   }
 
   @Get()
@@ -28,7 +33,7 @@ export class ProfileController {
   @ApiResponse({ status: 200, description: 'Profile retrieved successfully', type: Profile })
   @ApiResponse({ status: 404, description: 'Profile not found' })
   findOne(@Request() req) {
-    const id = req.user.user_metadata.sub;
+    const id = req.user.sub;
     return this.profileService.findOne(id);
   }
 
@@ -39,7 +44,7 @@ export class ProfileController {
   @ApiResponse({ status: 200, description: 'Profile updated successfully', type: Profile })
   @ApiResponse({ status: 404, description: 'Profile not found' })
   update(@Request() req, @Body() updateProfileDto: UpdateProfileDto) {
-    const id = req.user.user_metadata.sub;
+    const id = req.user.sub;
     return this.profileService.update(id, updateProfileDto);
   }
 
@@ -50,7 +55,7 @@ export class ProfileController {
   @ApiResponse({ status: 200, description: 'Profile theme updated successfully', type: Profile })
   @ApiResponse({ status: 404, description: 'Profile not found' })
   updateTheme(@Request() req) {
-    const id = req.user.user_metadata.sub;
+    const id = req.user.sub;
     return this.profileService.updateTheme(id);
   }
 
@@ -61,7 +66,7 @@ export class ProfileController {
   @ApiResponse({ status: 200, description: 'Profile theme fetched successfully', type: Profile })
   @ApiResponse({ status: 404, description: 'Profile not found' })
   getTheme(@Request() req) {
-    const id = req.user.user_metadata.sub;
+    const id = req.user.sub;
     return this.profileService.getTheme(id);
   }
 

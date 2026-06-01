@@ -17,7 +17,7 @@ export class GroupController {
   @ApiOperation({ summary: 'Create a new Group' })
   @ApiResponse({ status: 201, description: 'Group created successfully', type: Group })
   create(@Request() req, @Body() createGroupDto: CreateGroupDto) {
-    const userId = req.user.user_metadata.sub;
+    const userId = req.user.sub;
     return this.groupService.create(userId, createGroupDto);
   }
 
@@ -28,7 +28,7 @@ export class GroupController {
   @ApiQuery({ name: 'search', required: false, description: 'Filter by name or description' })
   @ApiResponse({ status: 200, description: 'Return all groups', type: [Group] })
   findAll(@Request() req, @Query('search') search?: string) {
-    const userId = req.user.user_metadata.sub;
+    const userId = req.user.sub;
     return this.groupService.findAll(userId, search);
   }
 
