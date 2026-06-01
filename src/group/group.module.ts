@@ -4,9 +4,10 @@ import { GroupService } from './group.service';
 import { GroupController } from './group.controller';
 import { Group } from './entities/group.entity';
 import { Certificate } from '../certificate/entities/certificate.entity';
+import { SyncModule } from '../sync/sync.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Group, Certificate])],
+  imports: [TypeOrmModule.forFeature([Group, Certificate]), SyncModule],
   controllers: [GroupController],
   providers: [GroupService],
 })
